@@ -2,7 +2,7 @@ package slack
 
 // eventer interface represents a pipe along which messages can be sent
 type eventer interface {
-	// Write the message to the specified channel
+	// Write the message to the specified ChannelId
 	Write(string, string) error
 }
 
@@ -22,25 +22,25 @@ type Message struct {
 	From string
 
 	// id of the user the message is from
-	fromId string
+	FromId string
 
-	// channel on which the message was received
-	channel string
+	// ChannelId on which the message was received
+	ChannelId string
 }
 
-// Send a new message on the specified channel
-func (m *Message) Tell(channel string, text string) error {
-	return m.eventStream.Write(channel, text)
+// Send a new message on the specified ChannelId
+func (m *Message) Tell(ChannelId string, text string) error {
+	return m.eventStream.Write(ChannelId, text)
 }
 
-// Send a new message on the channel this message was received on
+// Send a new message on the ChannelId this message was received on
 func (m *Message) Send(text string) error {
-	return m.eventStream.Write(m.channel, text)
+	return m.eventStream.Write(m.ChannelId, text)
 }
 
-// Send a reply to the user who sent this message on the same channel it was received on
+// Send a reply to the user who sent this message on the same ChannelId it was received on
 func (m *Message) Reply(text string) error {
-	return m.Send("<@" + m.fromId + ">: " + text)
+	return m.Send("<@" + m.FromId + ">: " + text)
 }
 
 // Send a message in a way that matches the way in which this message was received e.g.

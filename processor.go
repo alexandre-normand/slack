@@ -236,18 +236,18 @@ func filterMessage(p *Processor, data map[string]interface{}, respond messagePro
 
 	if len(matches) == 3 {
 		if respond != nil {
-			m := &Message{eventStream: p, responseStrategy: reply, Text: matches[2], From: userFullName, fromId: userId, channel: data["channel"].(string)}
+			m := &Message{eventStream: p, responseStrategy: reply, Text: matches[2], From: userFullName, FromId: userId, ChannelId: data["channel"].(string)}
 			respond(m)
 		}
 	} else if data["channel"].(string)[0] == 'D' {
 		if respond != nil {
 			// process direct messages
-			m := &Message{eventStream: p, responseStrategy: send, Text: text.(string), From: userFullName, fromId: userId, channel: data["channel"].(string)}
+			m := &Message{eventStream: p, responseStrategy: send, Text: text.(string), From: userFullName, FromId: userId, ChannelId: data["channel"].(string)}
 			respond(m)
 		}
 	} else {
 		if hear != nil {
-			m := &Message{eventStream: p, responseStrategy: send, Text: text.(string), From: userFullName, fromId: userId, channel: data["channel"].(string)}
+			m := &Message{eventStream: p, responseStrategy: send, Text: text.(string), From: userFullName, FromId: userId, ChannelId: data["channel"].(string)}
 			hear(m)
 		}
 	}
