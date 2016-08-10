@@ -145,10 +145,15 @@ func (p *Processor) Start() {
 		}
 
 		if !isReply && !isMessageChangedEvent {
-			handler, ok := p.eventHandlers[data["type"].(string)]
+			dataType := data["type"]
+			if dataType != nil {
+				handler, ok := p.eventHandlers[data["type"].(string)]
 
-			if ok {
-				handler(p, data, msg)
+				if ok {
+					handler(p, data, msg)
+				}
+			} else {
+				log.Printf("message type is nil")
 			}
 		}
 	}
